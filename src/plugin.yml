@@ -2,5 +2,6 @@ name: GlobalJoins
 main: net.gameon365.mc.plugins.bungee.globaljoins.GlobalJoins
 version: 2
 author: NickG365
+depends: [BungeeYAML]
 #website: http://gameon365.net
 #email: nick@gameon365.net
