@@ -1,6 +1,6 @@
 name: GlobalJoins
 main: net.gameon365.mc.plugins.bungee.globaljoins.GlobalJoins
-version: 3
+version: 4
 author: NickG365
 depends: ['BungeeYAML']
 #website: http://gameon365.net
