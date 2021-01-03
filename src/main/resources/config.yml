@@ -1,0 +1,6 @@
+strings:
+  login: '&e%s.exe loading...'
+  logout: '&e%s.exe terminating...'
+delayedCheck:
+  enabled: false
+  seconds: 3

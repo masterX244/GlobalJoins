@@ -1,0 +1,11 @@
+apply plugin: 'java'
+sourceCompatibility = 1.8
+
+dependencies {
+  compile group: 'net.md-5', name: 'bungeecord-api', version: '1.16-R0.4-SNAPSHOT'
+}
+
+repositories {
+mavenCentral()
+  maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
