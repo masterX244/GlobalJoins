@@ -3,6 +3,7 @@ sourceCompatibility = 1.8
 
 dependencies {
   compile group: 'net.md-5', name: 'bungeecord-api', version: '1.16-R0.4-SNAPSHOT'
+  compileOnly 'net.luckperms:api:5.2'
 }
 
 repositories {

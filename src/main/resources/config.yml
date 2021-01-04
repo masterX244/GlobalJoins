@@ -1,6 +1,14 @@
 strings:
-  login: '&e%s.exe loading...'
-  logout: '&e%s.exe terminating...'
+  login: '&e[%2$s&e]%1$s.exe loading...'
+  logout: '&e[%2$s&e]%1$s.exe terminating...'
 delayedCheck:
   enabled: false
   seconds: 3
+# use %2$s for the prefix
+# use %1$s for the player name
+
+#flag for prefix
+usePrefix: true
+
+#flag for using player specific prefix
+usePlayerPrefix: true

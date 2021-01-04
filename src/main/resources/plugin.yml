@@ -3,3 +3,4 @@ main: net.gameon365.mc.plugins.bungee.globaljoins.GlobalJoins
 version: 4
 #author: NickG365
 author: masterX244
+depends: ['LuckPerms']
