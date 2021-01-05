@@ -32,6 +32,9 @@ public class GlobalJoins extends Plugin implements Listener {
     protected boolean usePrefix;
     protected boolean usePlayerPrefix;
 
+    protected boolean useSuffix;
+    protected boolean useDisplayName;
+
     protected LuckPerms permissions;
     @Override
     public void onEnable()
@@ -65,7 +68,9 @@ public class GlobalJoins extends Plugin implements Listener {
     {
         ProxiedPlayer player = e.getPlayer();
         String prefix = getPrefix(player);
-        this.getProxy().broadcast( ChatColor.translateAlternateColorCodes( '&', String.format( this.loginString, e.getPlayer().getName() , prefix) ) );
+        String suffix = getSuffix(player);
+        String groupname = getDisplayname(player);
+        this.getProxy().broadcast( ChatColor.translateAlternateColorCodes( '&', String.format( this.loginString, e.getPlayer().getName() , prefix,suffix,groupname) ) );
     }
     
     @EventHandler
@@ -73,7 +78,9 @@ public class GlobalJoins extends Plugin implements Listener {
     {
         ProxiedPlayer player = e.getPlayer();
         String prefix = getPrefix(player);
-        this.getProxy().broadcast( ChatColor.translateAlternateColorCodes( '&', String.format( this.logoutString, e.getPlayer().getName() , prefix) ) );
+        String suffix = getSuffix(player);
+        String groupname = getDisplayname(player);
+        this.getProxy().broadcast( ChatColor.translateAlternateColorCodes( '&', String.format( this.logoutString, e.getPlayer().getName() , prefix,suffix,groupname) ) );
     }
 
     private String getPrefix(ProxiedPlayer player)
@@ -100,6 +107,43 @@ public class GlobalJoins extends Plugin implements Listener {
         return prefix;
     }
 
+    private String getSuffix(ProxiedPlayer player)
+    {
+        String prefix = "";
+        if(usePrefix)
+        {
+            PlayerAdapter<ProxiedPlayer> adapter = this.permissions.getPlayerAdapter(ProxiedPlayer.class);
+
+            CachedMetaData metaData = adapter.getMetaData(player);
+
+            // Get their prefix.
+            if(usePlayerPrefix)
+            {
+                prefix = metaData.getSuffix();
+            }
+            else
+            {
+                String primarygroup = metaData.getPrimaryGroup();
+                Group group = permissions.getGroupManager().getGroup(primarygroup);
+                prefix = group.getCachedData().getMetaData().getSuffix();
+            }
+        }
+        return prefix;
+    }
+
+    private String getDisplayname(ProxiedPlayer player)
+    {
+        String prefix = "";
+        if(usePrefix)
+        {
+            PlayerAdapter<ProxiedPlayer> adapter = this.permissions.getPlayerAdapter(ProxiedPlayer.class);
+            CachedMetaData metaData = adapter.getMetaData(player);
+            String primarygroup = metaData.getPrimaryGroup();
+            Group group = permissions.getGroupManager().getGroup(primarygroup);
+            prefix = group.getFriendlyName();
+        }
+        return prefix;
+    }
 
     private void initalizeConfigIfNotExisting()
     {
