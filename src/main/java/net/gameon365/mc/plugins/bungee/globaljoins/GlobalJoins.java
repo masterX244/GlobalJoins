@@ -8,6 +8,7 @@ import net.luckperms.api.model.user.User;
 import net.luckperms.api.platform.PlayerAdapter;
 import net.luckperms.api.query.QueryOptions;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PermissionCheckEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -40,7 +41,14 @@ public class GlobalJoins extends Plugin implements Listener {
     public void onEnable()
     {
         this.initalizeConfigIfNotExisting();
+        permissions = LuckPermsProvider.get();
 
+        loadConfig();
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new GJCommand(this));
+    }
+
+    public void loadConfig()
+    {
         Configuration configuration = null;
         try {
             configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
@@ -51,18 +59,11 @@ public class GlobalJoins extends Plugin implements Listener {
             this.usePlayerPrefix = configuration.getBoolean("usePlayerPrefix");
             this.getProxy().getPluginManager().registerListener( this, this );
 
-            if(usePrefix)
-            {
-                permissions = LuckPermsProvider.get();
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-    
+
     @EventHandler
     public void onPostLoginEvent( PostLoginEvent e )
     {
@@ -140,7 +141,11 @@ public class GlobalJoins extends Plugin implements Listener {
             CachedMetaData metaData = adapter.getMetaData(player);
             String primarygroup = metaData.getPrimaryGroup();
             Group group = permissions.getGroupManager().getGroup(primarygroup);
-            prefix = group.getFriendlyName();
+            prefix = group.getDisplayName();
+            if(prefix==null)
+            {
+                prefix = group.getFriendlyName();
+            }
         }
         return prefix;
     }
