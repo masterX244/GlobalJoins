@@ -213,7 +213,7 @@ public class GlobalJoins extends Plugin implements Listener {
 
     private void fireDiscordWebhook(final boolean login, final String msg, final String strippeduuid)
     {
-        if(this.discordHook==null)
+        if(this.discordHook==null||this.discordHook.length()<10)
         {
             return;
         }
